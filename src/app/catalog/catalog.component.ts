@@ -208,4 +208,11 @@ getImageURL(product: IProduct) {
 getFilteredProducts(){
   return this.filter === '' ? this.products:this.products.filter((product) => product.category === this.filter);
 }
+getDiscountedClasses(product: IProduct){
+  if(product.discount > 0){
+    return 'strike'
+  }else{
+    return ''
+  }
+}
 }
