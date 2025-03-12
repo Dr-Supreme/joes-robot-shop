@@ -11,6 +11,7 @@ export class CatalogComponent {
   products: IProduct[];
   product: IProduct;
   filter: string = '';
+  cart: IProduct[] = [];
 
   constructor(){
 this.products = [
@@ -201,10 +202,7 @@ this.products = [
   }
 }
 
-getImageURL(product: IProduct) {
-  if(!product) return '';
-  return 'assets/images/robot-parts/' + product.imageName;
-}
+
 getFilteredProducts(){
   return this.filter === '' ? this.products:this.products.filter((product) => product.category === this.filter);
 }
@@ -214,5 +212,10 @@ getDiscountedClasses(product: IProduct){
   }else{
     return ''
   }
+}
+
+addToCart(product: IProduct){
+  this.cart.push(product);
+  console.log(`product ${product.name} added to cart`);
 }
 }
