@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IProduct } from './product.model';
+import { CartService } from '../cart.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'bot-catalog',
@@ -11,9 +13,9 @@ export class CatalogComponent {
   products: IProduct[];
   product: IProduct;
   filter: string = '';
-  cart: IProduct[] = [];
+  // cart: IProduct[] = [];
 
-  constructor(){
+  constructor(private cartSvc: CartService, private router: Router, private route: ActivatedRoute ) {
 this.products = [
   {
     id: 1,
@@ -200,8 +202,14 @@ this.products = [
       imageName: "product1.jpg"
 
   }
+  
 }
 
+ngOnInit() {
+ this.route.params.subscribe((params) => {
+  this.filter = params['filter'] ?? '';
+ });
+}
 
 getFilteredProducts(){
   return this.filter === '' ? this.products:this.products.filter((product) => product.category === this.filter);
@@ -214,8 +222,8 @@ getDiscountedClasses(product: IProduct){
   }
 }
 
-addToCart(product: IProduct){
-  this.cart.push(product);
-  console.log(`product ${product.name} added to cart`);
+addToCart(product: IProduct){ //using the service and injecting it
+  this.cartSvc.add(product);
+  this.router.navigate(['/cart']);
 }
 }
